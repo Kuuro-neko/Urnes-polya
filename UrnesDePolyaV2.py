@@ -6,44 +6,36 @@ class IllegalArgumentError(Exception):
 
 def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart) :
     
-   
-    if operation=="add" :
-        for j in range(nbSim):
-            nbBleu=int(nbBstart)
-            nbRouge=int(nbRstart)
-            tauxBleuList=list() 
-            tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-            for i in range(1,nbIt+1):
-                num=random.randint(1,nbBleu+nbRouge)
+    for j in range(nbSim):
+        nbBleu=int(nbBstart)
+        nbRouge=int(nbRstart)
+        tauxBleuList=list() 
+        tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
+        for i in range(1,nbIt+1):
+            num=random.randint(1,nbBleu+nbRouge)
+            if operation=="add": 
                 if(num<=nbBleu) :
                   nbBleu+=bPiochéAddBleu
                   nbRouge+=bPiochéAddRouge
                 else :
                     nbRouge+=rPiochéAddRouge
                     nbBleu+=rPiochéAddBleu
-                tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-            plt.plot(tauxBleuList)
-               
-    elif operation=="mult":
-        for j in range(nbSim):
-            nbBleu=int(nbBstart)
-            nbRouge=int(nbRstart)
-            tauxBleuList=list() 
-            tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-            for i in range(1,nbIt+1):
-                num=random.randint(1,nbBleu+nbRouge)
+            elif operation=="mult":
                 if(num<=nbBleu) :
                   nbBleu*=bPiochéAddBleu
                   nbRouge*=bPiochéAddRouge
                 else :
                     nbRouge+=rPiochéAddRouge
                     nbBleu+=rPiochéAddBleu
-                tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-            plt.plot(tauxBleuList)
-    else :
-        raise IllegalArgumentError("Operation impossible")
+            else :
+                raise IllegalArgumentError("Operation impossible")
+            tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
+        plt.plot(tauxBleuList)
+        plt.xlabel("Nombre d'itérations")
+        plt.ylabel("% Bleues")
+        plt.savefig("simul.png", format='png')
     
+           
         
-        
-        
-tracerUrnes(400, 1000, 1, 0, 0, 1, "add", 27,1)
+
+graph=tracerUrnes(400, 90, 1, 0, 0, 1, "add", 1,1)
