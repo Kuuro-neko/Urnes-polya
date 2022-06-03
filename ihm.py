@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
+import UrnesDePolyaV2 as urnes
 
 
 app = tk.Tk()
@@ -23,39 +24,6 @@ class IllegalArgumentError(Exception):
 def clear_frame():
    for widgets in app.frameGraphe.winfo_children():
       widgets.destroy()
-      
-def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart) :
-    plt.clf()
-    for j in range(nbSim):
-        nbBleu=int(nbBstart)
-        nbRouge=int(nbRstart)
-        tauxBleuList=list() 
-        tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-        for i in range(1,nbIt+1):
-            num=random.randint(1,nbBleu+nbRouge)
-            if operation=="Additionner": 
-                if(num<=nbBleu) :
-                  nbBleu+=bPiochéAddBleu
-                  nbRouge+=bPiochéAddRouge
-                else :
-                    nbRouge+=rPiochéAddRouge
-                    nbBleu+=rPiochéAddBleu
-            elif operation=="Multiplier":
-                if(num<=nbBleu) :
-                  nbBleu*=bPiochéAddBleu
-                  nbRouge*=bPiochéAddRouge
-                else :
-                    nbRouge+=rPiochéAddRouge
-                    nbBleu+=rPiochéAddBleu
-            else :
-                raise IllegalArgumentError("Operation impossible")
-            tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
-        
-        plt.plot(tauxBleuList)
-        
-        plt.xlabel("Nombre d'itérations")
-        plt.ylabel("% Bleues")
-    plt.savefig("simul.png", format='png', dpi = (100))
     
 
 def calculerUrne():
@@ -71,7 +39,7 @@ def calculerUrne():
     
     clear_frame()
     
-    tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
+    urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
     
     img = Image.open("simul.png")
     photo = ImageTk.PhotoImage(img)
