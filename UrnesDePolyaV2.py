@@ -23,6 +23,8 @@ def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, r
                     nbBleu+=rPiochéAddBleu
                 tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
             plt.plot(tauxBleuList)
+            plt.xlabel("Nombre d'itérations")
+            plt.ylabel("% Bleues")
                
     elif operation=="mult":
         for j in range(nbSim):
@@ -40,6 +42,8 @@ def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, r
                     nbBleu+=rPiochéAddBleu
                 tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
             plt.plot(tauxBleuList)
+            plt.xlabel("Nombre d'itérations")
+            plt.ylabel("% Bleues")
     else :
         raise IllegalArgumentError("Operation impossible")
     
