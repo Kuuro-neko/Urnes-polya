@@ -4,6 +4,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import *
+from tkinter.messagebox import askyesno
 
 from PIL import ImageTk, Image
 
@@ -47,6 +48,10 @@ def calculerUrne():
     label.image = photo
     label.pack()
 
+def quitter():
+    answer = askyesno(title="Confirmation", message="Voulez-vous vraiment quitter ?")
+    if answer:
+        app.destroy()
 
 _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
 _fgcolor = '#000000'  # X11 color: 'black'
@@ -123,7 +128,7 @@ app.labelNbSimul.configure(foreground="#000000")
 app.labelNbSimul.configure(highlightbackground="#d9d9d9")
 app.labelNbSimul.configure(highlightcolor="black")
 app.labelNbSimul.configure(justify='right')
-app.labelNbSimul.configure(text='''Nombre d'itérations''')
+app.labelNbSimul.configure(text="Nombre de simulations")
 
 app.frameGraphe = tk.Frame(app)
 app.frameGraphe.place(relx=0.424, rely=0.022, relheight=0.889
@@ -296,7 +301,7 @@ app.labelRLorsDeTirageR.configure(justify='left')
 app.labelRLorsDeTirageR.configure(text='''Rouge(s)''')
 app.labelRLorsDeTirageR.configure(compound='left')
 
-app.boutonQuit = tk.Button(app, command=app.destroy)
+app.boutonQuit = tk.Button(app, command=quitter)
 app.boutonQuit.place(relx=0.011, rely=0.844, height=24, width=67)
 app.boutonQuit.configure(activebackground="beige")
 app.boutonQuit.configure(activeforeground="#000000")
