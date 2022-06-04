@@ -3,9 +3,50 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import *
+
+from PIL import ImageTk, Image
+
+import random
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
+import UrnesDePolyaV2 as urnes
 
 
 app = tk.Tk()
+
+
+class IllegalArgumentError(Exception):
+   pass
+
+def clear_frame():
+   for widgets in app.frameGraphe.winfo_children():
+      widgets.destroy()
+    
+
+def calculerUrne():
+    nbIter = int(app.saisieNbIter.get())
+    nbSimul = int(app.saisieNbSimul.get())
+    operation = str(app.boxActionTirage.get())
+    nbBquandB = int(app.saisieBLorsDeTirageB.get())
+    nbRquandB = int(app.saisieRLorsDeTirageB.get())
+    nbBquandR = int(app.saisieBLorsDeTirageR.get())
+    nbRquandR = int(app.saisieRLorsDeTirageR.get())
+    nbBstart=1
+    nbRstart=1
+    
+    clear_frame()
+    
+    urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
+    
+    img = Image.open("simul.png")
+    photo = ImageTk.PhotoImage(img)
+    label = Label(app.frameGraphe, image=photo)
+    label.image = photo
+    label.pack()
+
 
 _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
 _fgcolor = '#000000'  # X11 color: 'black'
@@ -18,12 +59,13 @@ app.style.configure('.',font="TkDefaultFont")
 app.style.map('.',background=
     [('selected', _compcolor), ('active',_ana2color)])
 
-app.geometry("708x450+338+193")
+app.geometry("1075x430")
 app.minsize(120, 1)
 app.maxsize(3844, 1061)
 app.resizable(1,  1)
 app.title("Polya uwu")
 app.configure(background="#d9d9d9")
+app.resizable(False, False)
 
 app.combobox = tk.StringVar()
 
@@ -89,16 +131,8 @@ app.frameGraphe.place(relx=0.424, rely=0.022, relheight=0.889
 app.frameGraphe.configure(relief='groove')
 app.frameGraphe.configure(borderwidth="2")
 app.frameGraphe.configure(relief="groove")
-app.frameGraphe.configure(background="#d9d9d9")
+app.frameGraphe.configure(background="white")
 
-app.Label2 = tk.Label(app.frameGraphe)
-app.Label2.place(relx=0.4, rely=0.425, height=21, width=154)
-app.Label2.configure(anchor='w')
-app.Label2.configure(background="#d9d9d9")
-app.Label2.configure(compound='left')
-app.Label2.configure(disabledforeground="#a3a3a3")
-app.Label2.configure(foreground="#000000")
-app.Label2.configure(text='''LE GRAPHE ICI XD''')
 
 app.frameTirageBoule = tk.Frame(app)
 app.frameTirageBoule.place(relx=0.011, rely=0.311, relheight=0.489
@@ -109,15 +143,30 @@ app.frameTirageBoule.configure(relief="groove")
 app.frameTirageBoule.configure(background="#d9d9d9")
 
 app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, values=["Additionner", "Multiplier"])
-app.boxActionTirage.place(relx=0.57, rely=0.074, relheight=0.081
+app.boxActionTirage.place(relx=0.57, rely=0.374, relheight=0.081
         , relwidth=0.339)
 app.boxActionTirage.configure(textvariable=app.combobox)
 app.boxActionTirage.configure(takefocus="#c4c4c4")
 app.boxActionTirage.current(0)
 
+app.labelnbInitialBoules = ttk.Label(app.frameTirageBoule)
+app.labelnbInitialBoules.place(relx=0.036, rely=0.05, height=20, width=111)
+app.labelnbInitialBoules.configure(background="#d9d9d9")
+app.labelnbInitialBoules.configure(foreground="#000000")
+app.labelnbInitialBoules.configure(font="TkDefaultFont")
+app.labelnbInitialBoules.configure(relief="flat")
+app.labelnbInitialBoules.configure(anchor='w')
+app.labelnbInitialBoules.configure(justify='left')
+app.labelnbInitialBoules.configure(text='''Nombre initial de boules''')
+app.labelnbInitialBoules.configure(compound='left')
+
+app.separator = ttk.Separator(app.frameTirageBoule)
+app.separator.place(relx=0.05, rely=0.3,  relwidth=0.9)
+app.separator.configure(orient="horizontal")
+
 
 app.labelActionTirage = ttk.Label(app.frameTirageBoule)
-app.labelActionTirage.place(relx=0.23, rely=0.074, height=20, width=90)
+app.labelActionTirage.place(relx=0.23, rely=0.374, height=20, width=90)
 app.labelActionTirage.configure(background="#d9d9d9")
 app.labelActionTirage.configure(foreground="#000000")
 app.labelActionTirage.configure(font="TkDefaultFont")
@@ -128,7 +177,7 @@ app.labelActionTirage.configure(text='''Lors du tirage,''')
 app.labelActionTirage.configure(compound='left')
 
 app.labelTirageR = ttk.Label(app.frameTirageBoule)
-app.labelTirageR.place(relx=0.5, rely=0.263, height=20, width=121)
+app.labelTirageR.place(relx=0.5, rely=0.563, height=20, width=121)
 app.labelTirageR.configure(background="#d9d9d9")
 app.labelTirageR.configure(foreground="#000000")
 app.labelTirageR.configure(font="TkDefaultFont")
@@ -139,7 +188,7 @@ app.labelTirageR.configure(text='''Tirage d'une Rouge''')
 app.labelTirageR.configure(compound='left')
 
 app.labelTirageB = ttk.Label(app.frameTirageBoule)
-app.labelTirageB.place(relx=0.036, rely=0.263, height=20, width=111)
+app.labelTirageB.place(relx=0.036, rely=0.563, height=20, width=111)
 app.labelTirageB.configure(background="#d9d9d9")
 app.labelTirageB.configure(foreground="#000000")
 app.labelTirageB.configure(font="TkDefaultFont")
@@ -150,11 +199,11 @@ app.labelTirageB.configure(text='''Tirage d'une Bleue''')
 app.labelTirageB.configure(compound='left')
 
 app.separator = ttk.Separator(app.frameTirageBoule)
-app.separator.place(relx=0.464, rely=0.304,  relheight=0.678)
+app.separator.place(relx=0.464, rely=0.504,  relheight=0.678)
 app.separator.configure(orient="vertical")
 
 app.saisieBLorsDeTirageB = tk.Entry(app.frameTirageBoule)
-app.saisieBLorsDeTirageB.place(relx=0.036, rely=0.378, height=20, relwidth=0.161)
+app.saisieBLorsDeTirageB.place(relx=0.036, rely=0.678, height=20, relwidth=0.161)
 app.saisieBLorsDeTirageB.configure(background="white")
 app.saisieBLorsDeTirageB.configure(disabledforeground="#a3a3a3")
 app.saisieBLorsDeTirageB.configure(font="TkFixedFont")
@@ -165,7 +214,7 @@ app.saisieBLorsDeTirageB.configure(selectforeground="black")
 app.saisieBLorsDeTirageB.insert("end", "1")
 
 app.labelBlorsDeTirageB = ttk.Label(app.frameTirageBoule)
-app.labelBlorsDeTirageB.place(relx=0.2, rely=0.378, height=20)
+app.labelBlorsDeTirageB.place(relx=0.2, rely=0.678, height=20)
 app.labelBlorsDeTirageB.configure(background="#d9d9d9")
 app.labelBlorsDeTirageB.configure(foreground="#000000")
 app.labelBlorsDeTirageB.configure(font="TkDefaultFont")
@@ -176,7 +225,7 @@ app.labelBlorsDeTirageB.configure(text='''Bleue(s)''')
 app.labelBlorsDeTirageB.configure(compound='left')
 
 app.saisieRLorsDeTirageB = tk.Entry(app.frameTirageBoule)
-app.saisieRLorsDeTirageB.place(relx=0.036, rely=0.53, height=20, relwidth=0.161)
+app.saisieRLorsDeTirageB.place(relx=0.036, rely=0.83, height=20, relwidth=0.161)
 app.saisieRLorsDeTirageB.configure(background="white")
 app.saisieRLorsDeTirageB.configure(disabledforeground="#a3a3a3")
 app.saisieRLorsDeTirageB.configure(font="TkFixedFont")
@@ -189,7 +238,7 @@ app.saisieRLorsDeTirageB.configure(selectforeground="black")
 app.saisieRLorsDeTirageB.insert("end", "0")
 
 app.labelRlorsDeTirageB = ttk.Label(app.frameTirageBoule)
-app.labelRlorsDeTirageB.place(relx=0.2, rely=0.53, height=20)
+app.labelRlorsDeTirageB.place(relx=0.2, rely=0.83, height=20)
 app.labelRlorsDeTirageB.configure(background="#d9d9d9")
 app.labelRlorsDeTirageB.configure(foreground="#000000")
 app.labelRlorsDeTirageB.configure(font="TkDefaultFont")
@@ -200,7 +249,7 @@ app.labelRlorsDeTirageB.configure(text='''Rouge(s)''')
 app.labelRlorsDeTirageB.configure(compound='left')
 
 app.saisieBLorsDeTirageR = tk.Entry(app.frameTirageBoule)
-app.saisieBLorsDeTirageR.place(relx=0.5, rely=0.378, height=20, relwidth=0.161)
+app.saisieBLorsDeTirageR.place(relx=0.5, rely=0.678, height=20, relwidth=0.161)
 app.saisieBLorsDeTirageR.configure(background="white")
 app.saisieBLorsDeTirageR.configure(disabledforeground="#a3a3a3")
 app.saisieBLorsDeTirageR.configure(font="TkFixedFont")
@@ -213,7 +262,7 @@ app.saisieBLorsDeTirageR.configure(selectforeground="black")
 app.saisieBLorsDeTirageR.insert("end", "0")
 
 app.labelBLorsDeTirageR = ttk.Label(app.frameTirageBoule)
-app.labelBLorsDeTirageR.place(relx=0.664, rely=0.378, height=20)
+app.labelBLorsDeTirageR.place(relx=0.664, rely=0.678, height=20)
 app.labelBLorsDeTirageR.configure(background="#d9d9d9")
 app.labelBLorsDeTirageR.configure(foreground="#000000")
 app.labelBLorsDeTirageR.configure(font="TkDefaultFont")
@@ -224,7 +273,7 @@ app.labelBLorsDeTirageR.configure(text='''Bleue(s)''')
 app.labelBLorsDeTirageR.configure(compound='left')
 
 app.saisieRLorsDeTirageR = tk.Entry(app.frameTirageBoule)
-app.saisieRLorsDeTirageR.place(relx=0.5, rely=0.53, height=20, relwidth=0.161)
+app.saisieRLorsDeTirageR.place(relx=0.5, rely=0.83, height=20, relwidth=0.161)
 app.saisieRLorsDeTirageR.configure(background="white")
 app.saisieRLorsDeTirageR.configure(disabledforeground="#a3a3a3")
 app.saisieRLorsDeTirageR.configure(font="TkFixedFont")
@@ -237,7 +286,7 @@ app.saisieRLorsDeTirageR.configure(selectforeground="black")
 app.saisieRLorsDeTirageR.insert("end", "1")
 
 app.labelRLorsDeTirageR = ttk.Label(app.frameTirageBoule)
-app.labelRLorsDeTirageR.place(relx=0.664, rely=0.53, height=20)
+app.labelRLorsDeTirageR.place(relx=0.664, rely=0.83, height=20)
 app.labelRLorsDeTirageR.configure(background="#d9d9d9")
 app.labelRLorsDeTirageR.configure(foreground="#000000")
 app.labelRLorsDeTirageR.configure(font="TkDefaultFont")
@@ -247,7 +296,7 @@ app.labelRLorsDeTirageR.configure(justify='left')
 app.labelRLorsDeTirageR.configure(text='''Rouge(s)''')
 app.labelRLorsDeTirageR.configure(compound='left')
 
-app.boutonQuit = tk.Button(app)
+app.boutonQuit = tk.Button(app, command=app.destroy)
 app.boutonQuit.place(relx=0.011, rely=0.844, height=24, width=67)
 app.boutonQuit.configure(activebackground="beige")
 app.boutonQuit.configure(activeforeground="#000000")
@@ -260,7 +309,7 @@ app.boutonQuit.configure(highlightcolor="black")
 app.boutonQuit.configure(pady="0")
 app.boutonQuit.configure(text='''Quitter''')
 
-app.boutonValider = tk.Button(app)
+app.boutonValider = tk.Button(app,command=calculerUrne)
 app.boutonValider.place(relx=0.14, rely=0.844, height=24, width=67)
 app.boutonValider.configure(activebackground="beige")
 app.boutonValider.configure(activeforeground="#000000")
