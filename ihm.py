@@ -3,16 +3,11 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import *
+from tkinter import Label
 from tkinter.messagebox import askyesno
 
 from PIL import ImageTk, Image
 
-import random
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg, NavigationToolbar2Tk)
 import UrnesDePolyaV2 as urnes
 
 
@@ -35,18 +30,21 @@ def calculerUrne():
     nbRquandB = int(app.saisieRLorsDeTirageB.get())
     nbBquandR = int(app.saisieBLorsDeTirageR.get())
     nbRquandR = int(app.saisieRLorsDeTirageR.get())
-    nbBstart=1
-    nbRstart=1
-    
+    nbBstart=int(app.saisieBleueIni.get())
+    nbRstart=int(app.saisieRougeIni.get())
     clear_frame()
-    
-    urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
-    
-    img = Image.open("simul.png")
-    photo = ImageTk.PhotoImage(img)
-    label = Label(app.frameGraphe, image=photo)
-    label.image = photo
-    label.pack()
+    app.labelErreur.configure(text="")
+    try:
+        urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
+        img = Image.open("simul.png")
+        photo = ImageTk.PhotoImage(img)
+        label = Label(app.frameGraphe, image=photo)
+        label.image = photo
+        label.pack()
+    except Exception as e:
+        s = str(e)
+        app.labelErreur.configure(text=s)
+
 
 def quitter():
     answer = askyesno(title="Confirmation", message="Voulez-vous vraiment quitter ?")
@@ -65,10 +63,7 @@ app.style.map('.',background=
     [('selected', _compcolor), ('active',_ana2color)])
 
 app.geometry("1075x430")
-app.minsize(120, 1)
-app.maxsize(3844, 1061)
-app.resizable(1,  1)
-app.title("Polya uwu")
+app.title("Urnes de Polya")
 app.configure(background="#d9d9d9")
 app.resizable(False, False)
 
@@ -148,22 +143,66 @@ app.frameTirageBoule.configure(relief="groove")
 app.frameTirageBoule.configure(background="#d9d9d9")
 
 app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, values=["Additionner", "Multiplier"])
-app.boxActionTirage.place(relx=0.57, rely=0.374, relheight=0.081
-        , relwidth=0.339)
+app.boxActionTirage.place(relx=0.255, rely=0.374, relheight=0.081, width=100)
 app.boxActionTirage.configure(textvariable=app.combobox)
 app.boxActionTirage.configure(takefocus="#c4c4c4")
 app.boxActionTirage.current(0)
 
 app.labelnbInitialBoules = ttk.Label(app.frameTirageBoule)
-app.labelnbInitialBoules.place(relx=0.036, rely=0.05, height=20, width=111)
+app.labelnbInitialBoules.place(relx=0.036, rely=0.05, height=20, width=150)
 app.labelnbInitialBoules.configure(background="#d9d9d9")
 app.labelnbInitialBoules.configure(foreground="#000000")
 app.labelnbInitialBoules.configure(font="TkDefaultFont")
 app.labelnbInitialBoules.configure(relief="flat")
 app.labelnbInitialBoules.configure(anchor='w')
 app.labelnbInitialBoules.configure(justify='left')
-app.labelnbInitialBoules.configure(text='''Nombre initial de boules''')
+app.labelnbInitialBoules.configure(text="Nombre initial de boules")
 app.labelnbInitialBoules.configure(compound='left')
+
+app.saisieBleueIni = tk.Entry(app.frameTirageBoule)
+app.saisieBleueIni.place(relx=0.036, rely=0.15, height=20, relwidth=0.161)
+app.saisieBleueIni.configure(background="white")
+app.saisieBleueIni.configure(disabledforeground="#a3a3a3")
+app.saisieBleueIni.configure(font="TkFixedFont")
+app.saisieBleueIni.configure(foreground="#000000")
+app.saisieBleueIni.configure(insertbackground="black")
+app.saisieBleueIni.configure(selectbackground="#c4c4c4")
+app.saisieBleueIni.configure(selectforeground="black")
+app.saisieBleueIni.insert("end", "1")
+
+app.labelBleueIni = ttk.Label(app.frameTirageBoule)
+app.labelBleueIni.place(relx=0.2, rely=0.15, height=20)
+app.labelBleueIni.configure(background="#d9d9d9")
+app.labelBleueIni.configure(foreground="#000000")
+app.labelBleueIni.configure(font="TkDefaultFont")
+app.labelBleueIni.configure(relief="flat")
+app.labelBleueIni.configure(anchor='w')
+app.labelBleueIni.configure(justify='left')
+app.labelBleueIni.configure(text='''Bleue(s)''')
+app.labelBleueIni.configure(compound='left')
+
+app.saisieRougeIni = tk.Entry(app.frameTirageBoule)
+app.saisieRougeIni.place(relx=0.5, rely=0.15, height=20, relwidth=0.161)
+app.saisieRougeIni.configure(background="white")
+app.saisieRougeIni.configure(disabledforeground="#a3a3a3")
+app.saisieRougeIni.configure(font="TkFixedFont")
+app.saisieRougeIni.configure(foreground="#000000")
+app.saisieRougeIni.configure(insertbackground="black")
+app.saisieRougeIni.configure(selectbackground="#c4c4c4")
+app.saisieRougeIni.configure(selectforeground="black")
+app.saisieRougeIni.insert("end", "1")
+
+app.labelRougeIni = ttk.Label(app.frameTirageBoule)
+app.labelRougeIni.place(relx=0.664, rely=0.15, height=20)
+app.labelRougeIni.configure(background="#d9d9d9")
+app.labelRougeIni.configure(foreground="#000000")
+app.labelRougeIni.configure(font="TkDefaultFont")
+app.labelRougeIni.configure(relief="flat")
+app.labelRougeIni.configure(anchor='w')
+app.labelRougeIni.configure(justify='left')
+app.labelRougeIni.configure(text='''Rouge(s)''')
+app.labelRougeIni.configure(compound='left')
+
 
 app.separator = ttk.Separator(app.frameTirageBoule)
 app.separator.place(relx=0.05, rely=0.3,  relwidth=0.9)
@@ -171,7 +210,7 @@ app.separator.configure(orient="horizontal")
 
 
 app.labelActionTirage = ttk.Label(app.frameTirageBoule)
-app.labelActionTirage.place(relx=0.23, rely=0.374, height=20, width=90)
+app.labelActionTirage.place(relx=0.036, rely=0.374, height=20, width=90)
 app.labelActionTirage.configure(background="#d9d9d9")
 app.labelActionTirage.configure(foreground="#000000")
 app.labelActionTirage.configure(font="TkDefaultFont")
@@ -302,43 +341,37 @@ app.labelRLorsDeTirageR.configure(text='''Rouge(s)''')
 app.labelRLorsDeTirageR.configure(compound='left')
 
 app.boutonQuit = tk.Button(app, command=quitter)
-app.boutonQuit.place(relx=0.011, rely=0.844, height=24, width=67)
+app.boutonQuit.place(relx=0.28, rely=0.844, height=24, width=80)
 app.boutonQuit.configure(activebackground="beige")
 app.boutonQuit.configure(activeforeground="#000000")
 app.boutonQuit.configure(background="#d9d9d9")
 app.boutonQuit.configure(compound='left')
-app.boutonQuit.configure(disabledforeground="#a3a3a3")
-app.boutonQuit.configure(foreground="#000000")
 app.boutonQuit.configure(highlightbackground="#d9d9d9")
 app.boutonQuit.configure(highlightcolor="black")
 app.boutonQuit.configure(pady="0")
-app.boutonQuit.configure(text='''Quitter''')
+app.boutonQuit.configure(text="Quitter")
 
 app.boutonValider = tk.Button(app,command=calculerUrne)
-app.boutonValider.place(relx=0.14, rely=0.844, height=24, width=67)
+app.boutonValider.place(relx=0.01, rely=0.844, height=24, width=80)
 app.boutonValider.configure(activebackground="beige")
 app.boutonValider.configure(activeforeground="#000000")
 app.boutonValider.configure(background="#d9d9d9")
 app.boutonValider.configure(compound='left')
-app.boutonValider.configure(disabledforeground="#a3a3a3")
-app.boutonValider.configure(foreground="#000000")
-app.boutonValider.configure(highlightbackground="#d9d9d9")
+app.boutonValider.configure(highlightbackground="green")
 app.boutonValider.configure(highlightcolor="black")
 app.boutonValider.configure(pady="0")
-app.boutonValider.configure(text='''Valider''')
+app.boutonValider.configure(text="Valider")
 
-app.boutonExport = tk.Button(app)
-app.boutonExport.place(relx=0.27, rely=0.844, height=24, width=90)
-app.boutonExport.configure(activebackground="beige")
-app.boutonExport.configure(activeforeground="#000000")
-app.boutonExport.configure(background="#d9d9d9")
-app.boutonExport.configure(compound='left')
-app.boutonExport.configure(disabledforeground="#a3a3a3")
-app.boutonExport.configure(foreground="#000000")
-app.boutonExport.configure(highlightbackground="#d9d9d9")
-app.boutonExport.configure(highlightcolor="black")
-app.boutonExport.configure(pady="0")
-app.boutonExport.configure(text='''Exporter en jpg''')
+app.labelErreur = ttk.Label(app)
+app.labelErreur.place(relx=0.01, rely=0.93, width=300)
+app.labelErreur.configure(background="#d9d9d9")
+app.labelErreur.configure(foreground="red")
+app.labelErreur.configure(font="TkDefaultFont")
+app.labelErreur.configure(relief="flat")
+app.labelErreur.configure(anchor='w')
+app.labelErreur.configure(justify='left')
+app.labelErreur.configure(text="")
+app.labelErreur.configure(compound='left')
 
 app.menubar = tk.Menu(app,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
 app.configure(menu = app.menubar)
