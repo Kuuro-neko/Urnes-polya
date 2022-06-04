@@ -224,7 +224,7 @@ app.labelActionTirage.configure(justify='left')
 app.labelActionTirage.configure(text='''Lors du tirage,''')
 app.labelActionTirage.configure(compound='left')
 
-app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, values=["Additionner", "Multiplier"])
+app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, state="readonly", values=["Additionner", "Multiplier"])
 app.boxActionTirage.place(relx=0.255, rely=0.374, relheight=0.081, width=100)
 app.boxActionTirage.configure(textvariable=app.combobox)
 app.boxActionTirage.configure(takefocus="#c4c4c4")
