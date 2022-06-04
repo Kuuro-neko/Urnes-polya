@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 class IllegalArgumentError(Exception):
     pass
 
-def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart) :
+def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart):
     if nbIt<1 or nbSim <1 or nbBstart<1 or nbRstart <1 :
         raise IllegalArgumentError("1 paramètre de simulation ou plus est negatif ou nul")
     if bPiochéAddBleu<0 or bPiochéAddRouge<0 or rPiochéAddBleu<0 or rPiochéAddRouge <0 :
         raise IllegalArgumentError("Impossible d'ajouter un nombre négatif de boules")
+    if operation=="Multiplier"and (bPiochéAddBleu<=0 or rPiochéAddRouge <=0) :
+        raise IllegalArgumentError("Multiplication par 0 impossible pour la boule de couleur piochée")
     plt.clf()
     for j in range(nbSim):
         nbBleu=int(nbBstart)
@@ -32,7 +34,7 @@ def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, r
                     nbRouge*=rPiochéAddRouge
                     nbBleu*=rPiochéAddBleu
             else :
-                raise IllegalArgumentError("Operation impossible")
+                raise IllegalArgumentError("Operation lors du tirage impossible")
             tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
         
         
@@ -43,4 +45,4 @@ def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, r
     plt.savefig("simul.png", format='png', dpi=100)
         
 
-graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Additionner", 1,1)
+graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Multiplier", 1,1)
