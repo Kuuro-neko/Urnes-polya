@@ -18,6 +18,7 @@ class IllegalArgumentError(Exception):
    pass
 
 def clear_frame():
+   app.labelErreur.configure(text="")
    for widgets in app.frameGraphe.winfo_children():
       widgets.destroy()
     
@@ -33,7 +34,6 @@ def calculerUrne():
     nbBstart=int(app.saisieBleueIni.get())
     nbRstart=int(app.saisieRougeIni.get())
     clear_frame()
-    app.labelErreur.configure(text="")
     try:
         urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
         img = Image.open("simul.png")
