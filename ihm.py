@@ -46,7 +46,7 @@ def quitter():
 
 def entryValidation(S):
     for c in S:
-        if c not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        if c not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-']:
             app.bell()
             return False
     return True
