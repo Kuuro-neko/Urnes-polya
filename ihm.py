@@ -44,6 +44,26 @@ def quitter():
     if answer:
         app.destroy()
 
+def reset():
+    answer = askyesno(title="Confirmation", message="Voulez-vous vraiment remettre tous les paramètres aux valeurs par défaut ?")
+    if answer:
+        app.saisieNbIter.delete(0, "end")
+        app.saisieNbIter.insert("end", "400")
+        app.saisieNbSimul.delete(0, "end")
+        app.saisieNbSimul.insert("end", "20")
+        app.saisieBleueIni.delete(0, "end")
+        app.saisieBleueIni.insert("end", "1")
+        app.saisieRougeIni.delete(0, "end")
+        app.saisieRougeIni.insert("end", "1")
+        app.saisieBLorsDeTirageB.delete(0, "end")
+        app.saisieBLorsDeTirageB.insert("end", "1")
+        app.saisieRLorsDeTirageB.delete(0, "end")
+        app.saisieRLorsDeTirageB.insert("end", "0")
+        app.saisieBLorsDeTirageR.delete(0, "end")
+        app.saisieBLorsDeTirageR.insert("end", "0")
+        app.saisieRLorsDeTirageR.delete(0, "end")
+        app.saisieRLorsDeTirageR.insert("end", "1")
+
 def entryValidation(S):
     for c in S:
         if c not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-']:
@@ -353,7 +373,7 @@ app.labelRLorsDeTirageR.configure(compound='left')
 # Boutons et label pour les messages d'erreur
 
 app.boutonQuit = tk.Button(app, command=quitter)
-app.boutonQuit.place(relx=0.28, rely=0.844, height=24, width=80)
+app.boutonQuit.place(relx=0.32, rely=0.844, height=24, width=80)
 app.boutonQuit.configure(activebackground="beige")
 app.boutonQuit.configure(activeforeground="#000000")
 app.boutonQuit.configure(background="#d9d9d9")
@@ -362,6 +382,17 @@ app.boutonQuit.configure(highlightbackground="#d9d9d9")
 app.boutonQuit.configure(highlightcolor="black")
 app.boutonQuit.configure(pady="0")
 app.boutonQuit.configure(text="Quitter")
+
+app.boutonReset = tk.Button(app, command=reset)
+app.boutonReset.place(relx=0.155, rely=0.844, height=24, width=80)
+app.boutonReset.configure(activebackground="beige")
+app.boutonReset.configure(activeforeground="#000000")
+app.boutonReset.configure(background="#d9d9d9")
+app.boutonReset.configure(compound='left')
+app.boutonReset.configure(highlightbackground="#d9d9d9")
+app.boutonReset.configure(highlightcolor="black")
+app.boutonReset.configure(pady="0")
+app.boutonReset.configure(text="Réinitialiser")
 
 app.boutonValider = tk.Button(app,command=calculerUrne)
 app.boutonValider.place(relx=0.01, rely=0.844, height=24, width=80)
