@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 class IllegalArgumentError(Exception):
     pass
 
-def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart) :
+def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, rPiochéAddRouge, operation, nbBstart, nbRstart):
     if nbIt<1 or nbSim <1 or nbBstart<1 or nbRstart <1 :
         raise IllegalArgumentError("1 paramètre de simulation ou plus est negatif ou nul")
     if bPiochéAddBleu<0 or bPiochéAddRouge<0 or rPiochéAddBleu<0 or rPiochéAddRouge <0 :
@@ -32,7 +32,7 @@ def tracerUrnes(nbIt, nbSim, bPiochéAddBleu,bPiochéAddRouge,rPiochéAddBleu, r
                     nbRouge*=rPiochéAddRouge
                     nbBleu*=rPiochéAddBleu
             else :
-                raise IllegalArgumentError("Operation impossible")
+                raise IllegalArgumentError("Operation lors du tirage impossible")
             tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
         
         

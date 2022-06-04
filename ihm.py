@@ -18,6 +18,7 @@ def clear_frame():
       widgets.destroy()
     
 def calculerUrne():
+    clear_frame()
     nbIter = int(app.saisieNbIter.get())
     nbSimul = int(app.saisieNbSimul.get())
     operation = str(app.boxActionTirage.get())
@@ -27,7 +28,6 @@ def calculerUrne():
     nbRquandR = int(app.saisieRLorsDeTirageR.get())
     nbBstart=int(app.saisieBleueIni.get())
     nbRstart=int(app.saisieRougeIni.get())
-    clear_frame()
     try:
         urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
         img = Image.open("simul.png")
@@ -39,11 +39,17 @@ def calculerUrne():
         s = str(e)
         app.labelErreur.configure(text=s)
 
-
 def quitter():
     answer = askyesno(title="Confirmation", message="Voulez-vous vraiment quitter ?")
     if answer:
         app.destroy()
+
+def entryValidation(S):
+    for c in S:
+        if c not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            app.bell()
+            return False
+    return True
 
 _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
 _fgcolor = '#000000'  # X11 color: 'black'
@@ -70,9 +76,11 @@ app.frameNbIterSimul.configure(borderwidth="2")
 app.frameNbIterSimul.configure(relief="groove")
 app.frameNbIterSimul.configure(background="#d9d9d9")
 
+vcmd = (app.register(entryValidation), '%S')
+
 # Frame saisie paramètres itération, simulation
 
-app.saisieNbIter = tk.Entry(app.frameNbIterSimul)
+app.saisieNbIter = tk.Entry(app.frameNbIterSimul, validate='key', vcmd=vcmd)
 app.saisieNbIter.place(relx=0.577, rely=0.08, height=20, relwidth=0.307)
 app.saisieNbIter.configure(background="white")
 app.saisieNbIter.configure(disabledforeground="#a3a3a3")
@@ -95,7 +103,7 @@ app.labelNbIter.configure(foreground="#000000")
 app.labelNbIter.configure(justify='right')
 app.labelNbIter.configure(text='''Nombre d'itérations''')
 
-app.saisieNbSimul = tk.Entry(app.frameNbIterSimul)
+app.saisieNbSimul = tk.Entry(app.frameNbIterSimul, validate='key', vcmd=vcmd)
 app.saisieNbSimul.place(relx=0.577, rely=0.48, height=20, relwidth=0.307)
 app.saisieNbSimul.configure(background="white")
 app.saisieNbSimul.configure(disabledforeground="#a3a3a3")
@@ -154,7 +162,7 @@ app.labelnbInitialBoules.configure(justify='left')
 app.labelnbInitialBoules.configure(text="Nombre initial de boules")
 app.labelnbInitialBoules.configure(compound='left')
 
-app.saisieBleueIni = tk.Entry(app.frameTirageBoule)
+app.saisieBleueIni = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieBleueIni.place(relx=0.036, rely=0.15, height=20, relwidth=0.161)
 app.saisieBleueIni.configure(background="white")
 app.saisieBleueIni.configure(disabledforeground="#a3a3a3")
@@ -176,7 +184,7 @@ app.labelBleueIni.configure(justify='left')
 app.labelBleueIni.configure(text='''Bleue(s)''')
 app.labelBleueIni.configure(compound='left')
 
-app.saisieRougeIni = tk.Entry(app.frameTirageBoule)
+app.saisieRougeIni = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieRougeIni.place(relx=0.5, rely=0.15, height=20, relwidth=0.161)
 app.saisieRougeIni.configure(background="white")
 app.saisieRougeIni.configure(disabledforeground="#a3a3a3")
@@ -248,7 +256,7 @@ app.separator = ttk.Separator(app.frameTirageBoule)
 app.separator.place(relx=0.464, rely=0.504,  relheight=0.678)
 app.separator.configure(orient="vertical")
 
-app.saisieBLorsDeTirageB = tk.Entry(app.frameTirageBoule)
+app.saisieBLorsDeTirageB = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieBLorsDeTirageB.place(relx=0.036, rely=0.678, height=20, relwidth=0.161)
 app.saisieBLorsDeTirageB.configure(background="white")
 app.saisieBLorsDeTirageB.configure(disabledforeground="#a3a3a3")
@@ -270,7 +278,7 @@ app.labelBlorsDeTirageB.configure(justify='left')
 app.labelBlorsDeTirageB.configure(text='''Bleue(s)''')
 app.labelBlorsDeTirageB.configure(compound='left')
 
-app.saisieRLorsDeTirageB = tk.Entry(app.frameTirageBoule)
+app.saisieRLorsDeTirageB = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieRLorsDeTirageB.place(relx=0.036, rely=0.83, height=20, relwidth=0.161)
 app.saisieRLorsDeTirageB.configure(background="white")
 app.saisieRLorsDeTirageB.configure(disabledforeground="#a3a3a3")
@@ -294,7 +302,7 @@ app.labelRlorsDeTirageB.configure(justify='left')
 app.labelRlorsDeTirageB.configure(text='''Rouge(s)''')
 app.labelRlorsDeTirageB.configure(compound='left')
 
-app.saisieBLorsDeTirageR = tk.Entry(app.frameTirageBoule)
+app.saisieBLorsDeTirageR = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieBLorsDeTirageR.place(relx=0.5, rely=0.678, height=20, relwidth=0.161)
 app.saisieBLorsDeTirageR.configure(background="white")
 app.saisieBLorsDeTirageR.configure(disabledforeground="#a3a3a3")
@@ -318,7 +326,7 @@ app.labelBLorsDeTirageR.configure(justify='left')
 app.labelBLorsDeTirageR.configure(text='''Bleue(s)''')
 app.labelBLorsDeTirageR.configure(compound='left')
 
-app.saisieRLorsDeTirageR = tk.Entry(app.frameTirageBoule)
+app.saisieRLorsDeTirageR = tk.Entry(app.frameTirageBoule, validate='key', vcmd=vcmd)
 app.saisieRLorsDeTirageR.place(relx=0.5, rely=0.83, height=20, relwidth=0.161)
 app.saisieRLorsDeTirageR.configure(background="white")
 app.saisieRLorsDeTirageR.configure(disabledforeground="#a3a3a3")
