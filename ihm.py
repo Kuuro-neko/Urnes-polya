@@ -3,7 +3,6 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter import Label
 from tkinter.messagebox import askyesno
 
 from PIL import ImageTk, Image
@@ -32,7 +31,7 @@ def calculerUrne():
         urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
         img = Image.open("simul.png")
         photo = ImageTk.PhotoImage(img)
-        label = Label(app.frameGraphe, image=photo)
+        label = tk.Label(app.frameGraphe, image=photo)
         label.image = photo
         label.pack()
     except Exception as e:
