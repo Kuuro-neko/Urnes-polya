@@ -384,7 +384,7 @@ app.boutonQuit.configure(pady="0")
 app.boutonQuit.configure(text="Quitter")
 
 app.boutonReset = tk.Button(app, command=reset)
-app.boutonReset.place(relx=0.155, rely=0.844, height=24, width=80)
+app.boutonReset.place(relx=0.165, rely=0.844, height=24, width=80)
 app.boutonReset.configure(activebackground="beige")
 app.boutonReset.configure(activeforeground="#000000")
 app.boutonReset.configure(background="#d9d9d9")
