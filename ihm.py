@@ -10,19 +10,13 @@ from PIL import ImageTk, Image
 
 import UrnesDePolyaV2 as urnes
 
-
 app = tk.Tk()
-
-
-class IllegalArgumentError(Exception):
-   pass
 
 def clear_frame():
    app.labelErreur.configure(text="")
    for widgets in app.frameGraphe.winfo_children():
       widgets.destroy()
     
-
 def calculerUrne():
     nbIter = int(app.saisieNbIter.get())
     nbSimul = int(app.saisieNbSimul.get())
@@ -76,6 +70,8 @@ app.frameNbIterSimul.configure(borderwidth="2")
 app.frameNbIterSimul.configure(relief="groove")
 app.frameNbIterSimul.configure(background="#d9d9d9")
 
+# Frame saisie paramètres itération, simulation
+
 app.saisieNbIter = tk.Entry(app.frameNbIterSimul)
 app.saisieNbIter.place(relx=0.577, rely=0.08, height=20, relwidth=0.307)
 app.saisieNbIter.configure(background="white")
@@ -125,6 +121,8 @@ app.labelNbSimul.configure(highlightcolor="black")
 app.labelNbSimul.configure(justify='right')
 app.labelNbSimul.configure(text="Nombre de simulations")
 
+# Frame du graphe
+
 app.frameGraphe = tk.Frame(app)
 app.frameGraphe.place(relx=0.424, rely=0.022, relheight=0.889
         , relwidth=0.565)
@@ -133,6 +131,7 @@ app.frameGraphe.configure(borderwidth="2")
 app.frameGraphe.configure(relief="groove")
 app.frameGraphe.configure(background="white")
 
+# Frame des paramètres sur les boules
 
 app.frameTirageBoule = tk.Frame(app)
 app.frameTirageBoule.place(relx=0.011, rely=0.311, relheight=0.489
@@ -142,11 +141,7 @@ app.frameTirageBoule.configure(borderwidth="2")
 app.frameTirageBoule.configure(relief="groove")
 app.frameTirageBoule.configure(background="#d9d9d9")
 
-app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, values=["Additionner", "Multiplier"])
-app.boxActionTirage.place(relx=0.255, rely=0.374, relheight=0.081, width=100)
-app.boxActionTirage.configure(textvariable=app.combobox)
-app.boxActionTirage.configure(takefocus="#c4c4c4")
-app.boxActionTirage.current(0)
+# - Paramètres de boules initiaux
 
 app.labelnbInitialBoules = ttk.Label(app.frameTirageBoule)
 app.labelnbInitialBoules.place(relx=0.036, rely=0.05, height=20, width=150)
@@ -208,6 +203,7 @@ app.separator = ttk.Separator(app.frameTirageBoule)
 app.separator.place(relx=0.05, rely=0.3,  relwidth=0.9)
 app.separator.configure(orient="horizontal")
 
+# - Paramètres de boules lors du tirage
 
 app.labelActionTirage = ttk.Label(app.frameTirageBoule)
 app.labelActionTirage.place(relx=0.036, rely=0.374, height=20, width=90)
@@ -219,6 +215,12 @@ app.labelActionTirage.configure(anchor='w')
 app.labelActionTirage.configure(justify='left')
 app.labelActionTirage.configure(text='''Lors du tirage,''')
 app.labelActionTirage.configure(compound='left')
+
+app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, values=["Additionner", "Multiplier"])
+app.boxActionTirage.place(relx=0.255, rely=0.374, relheight=0.081, width=100)
+app.boxActionTirage.configure(textvariable=app.combobox)
+app.boxActionTirage.configure(takefocus="#c4c4c4")
+app.boxActionTirage.current(0)
 
 app.labelTirageR = ttk.Label(app.frameTirageBoule)
 app.labelTirageR.place(relx=0.5, rely=0.563, height=20, width=121)
@@ -340,6 +342,8 @@ app.labelRLorsDeTirageR.configure(justify='left')
 app.labelRLorsDeTirageR.configure(text='''Rouge(s)''')
 app.labelRLorsDeTirageR.configure(compound='left')
 
+# Boutons et label pour les messages d'erreur
+
 app.boutonQuit = tk.Button(app, command=quitter)
 app.boutonQuit.place(relx=0.28, rely=0.844, height=24, width=80)
 app.boutonQuit.configure(activebackground="beige")
@@ -377,8 +381,3 @@ app.menubar = tk.Menu(app,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
 app.configure(menu = app.menubar)
 
 app.mainloop()
-
-
-
-
-
