@@ -37,11 +37,9 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
                     nbBleu*=rPiochéAddBleu
             elif operation=="Aléatoire":
                 if(rdm==1) :
-                  nbBleu+=bPiochéAddBleu
-                  nbRouge+=bPiochéAddRouge
+                  nbBleu+=1
                 else :
-                    nbRouge+=rPiochéAddRouge
-                    nbBleu+=rPiochéAddBleu
+                    nbRouge+=1
             else :
                 raise IllegalArgumentError("Operation lors du tirage impossible")
             tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
