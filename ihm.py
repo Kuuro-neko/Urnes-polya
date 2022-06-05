@@ -64,17 +64,17 @@ def reset():
         app.saisieRLorsDeTirageR.insert("end", "1")
 
 def updateIHMCombobox(event):
-    operation = str(event.widget.get())
+    operation = str(app.boxActionTirage.get())
     if operation == "Aléatoire":
         app.saisieBLorsDeTirageB.configure(state="disabled")
         app.saisieRLorsDeTirageB.configure(state="disabled")
         app.saisieBLorsDeTirageR.configure(state="disabled")
         app.saisieRLorsDeTirageR.configure(state="disabled")
     else:
-        app.saisieBLorsDeTirageB.configure(state="readonly")
-        app.saisieRLorsDeTirageB.configure(state="readonly")
-        app.saisieBLorsDeTirageR.configure(state="readonly")
-        app.saisieRLorsDeTirageR.configure(state="readonly")
+        app.saisieBLorsDeTirageB.configure(state="normal")
+        app.saisieRLorsDeTirageB.configure(state="normal")
+        app.saisieBLorsDeTirageR.configure(state="normal")
+        app.saisieRLorsDeTirageR.configure(state="normal")
     
 
 def entryValidation(S):
@@ -257,7 +257,7 @@ app.labelActionTirage.configure(justify='left')
 app.labelActionTirage.configure(text='''Lors du tirage,''')
 app.labelActionTirage.configure(compound='left')
 
-app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, state="readonly", values=["Additionner", "Multiplier", "Aleatoire"])
+app.boxActionTirage = ttk.Combobox(app.frameTirageBoule, state="readonly", values=["Additionner", "Multiplier", "Aléatoire"])
 app.boxActionTirage.place(relx=0.255, rely=0.374, relheight=0.081, width=100)
 app.boxActionTirage.configure(textvariable=app.combobox)
 app.boxActionTirage.configure(takefocus="#c4c4c4")

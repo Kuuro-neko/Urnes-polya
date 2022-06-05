@@ -34,7 +34,7 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
                 else :
                     nbRouge*=rPiochéAddRouge
                     nbBleu*=rPiochéAddBleu
-            elif operation=="Aleatoire":
+            elif operation=="Aléatoire":
                 if(rdm==1) :
                   nbBleu+=bPiochéAddBleu
                   nbRouge+=bPiochéAddRouge
@@ -53,4 +53,4 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
     plt.savefig("simul.png", format='png', dpi=100)
         
 
-graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Aleatoire", 1,1)
+graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Aléatoire", 1,1)
