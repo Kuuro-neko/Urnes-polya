@@ -19,6 +19,7 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
         tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
         for i in range(1,nbIt+1):
             num=random.randint(1,nbBleu+nbRouge)
+            rdm=random.randint(1,2)
             if operation=="Additionner": 
                 if(num<=nbBleu) :
                   nbBleu+=bPiochéAddBleu
@@ -33,6 +34,13 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
                 else :
                     nbRouge*=rPiochéAddRouge
                     nbBleu*=rPiochéAddBleu
+            elif operation=="Aleatoire":
+                if(rdm==1) :
+                  nbBleu+=bPiochéAddBleu
+                  nbRouge+=bPiochéAddRouge
+                else :
+                    nbRouge+=rPiochéAddRouge
+                    nbBleu+=rPiochéAddBleu
             else :
                 raise IllegalArgumentError("Operation lors du tirage impossible")
             tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
@@ -45,4 +53,4 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
     plt.savefig("simul.png", format='png', dpi=100)
         
 
-graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Multiplier", 1,1)
+graph=tracerUrnes(400, 20, 1, 0, 0, 1, "Aleatoire", 1,1)
