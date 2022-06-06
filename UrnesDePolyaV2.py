@@ -11,8 +11,11 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
         raise IllegalArgumentError("Impossible d'ajouter un nombre négatif de boules")
     if operation=="Multiplier"and (bPiochéAddBleu<=0 or rPiochéAddRouge <=0) :
         raise IllegalArgumentError("Multiplication par 0 impossible pour la boule de couleur piochée")
-    plt.clf()
-    fig, ax = plt.subplots(1, 1)
+    #plt.clf()
+    #fig, ax = plt.subplots(1, 1)
+    
+    listDeListe=list()
+    
     for j in range(nbSim):
         nbBleu=int(nbBstart)
         nbRouge=int(nbRstart)
@@ -43,14 +46,16 @@ def tracerUrnes(nbIt:int, nbSim:int, bPiochéAddBleu:int,bPiochéAddRouge:int,rP
             else :
                 raise IllegalArgumentError("Operation lors du tirage impossible")
             tauxBleuList.append(100*nbBleu/(nbBleu+nbRouge))
+        listDeListe.append(tauxBleuList)
         
-        
+        """
         ax.plot(tauxBleuList,linewidth=0.5)
         
     plt.setp(ax, ylim=(0,100))
     plt.xlabel("Nombre d'itérations")
     plt.ylabel("% Bleues")
     fig.savefig("simul.png", format='png', dpi=100)
-        
+    """
+    return listDeListe
 
-graph=tracerUrnes(400, 20, 1, 0, 8, 1, "Aléatoire", 1,1)
+tracerUrnes(400, 20, 1, 0, 8, 1, "Aléatoire", 1,1)
