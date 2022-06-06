@@ -5,7 +5,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.messagebox import askyesno
 
-from PIL import ImageTk, Image
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import UrnesDePolyaV2 as urnes
 
@@ -27,13 +28,22 @@ def calculerUrne():
     nbRquandR = int(app.saisieRLorsDeTirageR.get())
     nbBstart=int(app.saisieBleueIni.get())
     nbRstart=int(app.saisieRougeIni.get())
-    try:
-        urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
-        img = Image.open("simul.png")
-        photo = ImageTk.PhotoImage(img)
-        label = tk.Label(app.frameGraphe, image=photo)
-        label.image = photo
-        label.pack()
+    try:    
+        plt.clf()
+        fig, ax = plt.subplots(1, 1)
+        
+        listeDeListes = urnes.tracerUrnes(nbIter, nbSimul, nbBquandB, nbRquandB, nbBquandR, nbRquandR, operation, nbBstart, nbRstart)
+        
+        for tauxBleuList in listeDeListes:
+            ax.plot(tauxBleuList,linewidth=1)
+            
+        plt.setp(ax, ylim=(0,100))
+        plt.xlabel("Nombre d'itérations")
+        plt.ylabel("% Bleues")
+        
+        canvas = FigureCanvasTkAgg(fig, master=app.frameGraphe)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
     except Exception as e:
         s = str(e)
         app.labelErreur.configure(text=s)
